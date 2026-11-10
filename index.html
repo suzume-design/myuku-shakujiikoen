@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 提案用サンプルのため検索エンジンには載せない（このプロジェクトの全サイト共通・削除しない） -->
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1RZWP9PNCS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1RZWP9PNCS');
+    </script>
+
+    <!-- ▼ 差し替え：店舗ごとに書き換える -->
+    <title>myu:ku（みゅーく）| 練馬区石神井町・石神井公園駅 徒歩2分の美容室｜サンプルサイト</title>
+    <meta name="description" content="東京都練馬区石神井町、西武池袋線「石神井公園駅」から徒歩2分の美容室 myu:ku（みゅーく）。赤い車の形をしたキッズシートでのキッズカット、誕生記念筆、七五三・成人式のヘアセットも承ります。※本サイトは提案用サンプルです。">
+    <meta property="og:title" content="myu:ku（みゅーく）| 練馬区石神井町の美容室">
+    <meta property="og:description" content="石神井公園駅から徒歩2分。キッズカットと記念のヘアセットも承る、まちの美容室です。">
+    <meta property="og:type" content="website">
+    <!-- ▲ 差し替えここまで -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 読み込む書体はこの4つだけ。:root の --font-* と必ず一致させること。
+         書体を足す／変えるときは、この family= と :root の両方を直す。 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- ⚠ Tailwind は CDN 依存。オフラインではユーティリティクラスが一切効かず、レイアウトが崩れる。 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // ここでは色を直接書かない。すべて下の <style> の :root を参照する。
+        // rgb(var(--x) / <alpha-value>) 形式にしているのは、
+        // text-terras-text/80 のような不透明度つきクラスを効かせるため（重要・下の注意書き参照）。
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'terras-text':     'rgb(var(--c-text) / <alpha-value>)',
+                        'terras-accent1':  'rgb(var(--c-accent1) / <alpha-value>)',
+                        'terras-accent2':  'rgb(var(--c-accent2) / <alpha-value>)',
+                        'terras-cta':      'rgb(var(--c-cta) / <alpha-value>)',
+                        'terras-bg-light': 'rgb(var(--c-bg-light) / <alpha-value>)',
+                    },
+                    fontFamily: {
+                        'sans':     ['"Noto Sans JP"', 'sans-serif'],
+                        'maru':     ['"Zen Maru Gothic"', 'sans-serif'],
+                        'serif':    ['"Noto Serif JP"', 'serif'],
+                        'en-serif': ['"Playfair Display"', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* =====================================================================
+           配色とフォントの唯一の定義箇所。色を変えるときはここだけを直す。
+           Tailwind の terras-* クラスも、下の素の CSS も、すべてここを見ている。
+
+           ⚠ 色の値は「R G B」のスペース区切り（hex ではない）。
+              Tailwind の /80 などの不透明度指定を効かせるための形式。
+              hex を直接書くと text-terras-text/80 のようなクラスが無効になる。
+              hex → RGB は「#4A4540 → 74 69 64」のように16進2桁ずつ10進へ。
+           ===================================================================== */
+        :root {
+            --c-text:     59 53 57;      /* #3B3539 墨に近いグレー（本文・見出し）／白地 11.97 */
+            --c-accent1: 194 65 90;      /* #C2415A 看板のレッドピンクを文字向けに／白地 5.0 */
+            --c-accent2: 232 205 211;    /* #E8CDD3 薄いローズグレー（枠線・番号・補助） */
+            --c-cta:     179 47 74;      /* #B32F4A 濃いレッドピンク（ボタン・価格）／白文字 6.14 */
+            --c-bg-light: 253 247 248;   /* #FDF7F8 ほぼ白のピンクみ（セクション背景） */
+            --c-white:   255 255 255;    /* #FFFFFF */
+
+            /* 読み込み済みの4書体のみ。ここに書いた書体は上の Google Fonts <link> にも必ず入れる。 */
+            --font-sans:     'Noto Sans JP', sans-serif;
+            --font-maru:     'Zen Maru Gothic', sans-serif;
+            --font-serif:    'Noto Serif JP', serif;
+            --font-en-serif: 'Playfair Display', serif;
+        }
+
+        body {
+            color: rgb(var(--c-text));
+            background-color: rgb(var(--c-white));
+        }
+
+        .fade-in {
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ヒーロー右の写真の背後に置く、ぼかした円の飾り */
+        .deco-blob {
+            position: absolute;
+            bottom: -1.5rem;
+            left: -1.5rem;
+            width: 6rem;
+            height: 6rem;
+            background-color: rgb(var(--c-accent2));
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgb(var(--c-white)); }
+        ::-webkit-scrollbar-thumb {
+            background: rgb(var(--c-accent2));
+            border-radius: 4px;
+        }
+    
+
+/* ★狭い画面での横あふれ対策（2026-10-06）
+   body だけ overflow-x: hidden にすると html 側は visible のままなので、
+   iOS Safari ではページが横スクロールでき、右側に地色の帯（余白）が出る。
+   html にも掛ける必要があるが、hidden はスクロールコンテナを作るため
+   position: sticky のヘッダーが効かなくなる。clip は作らないので安全。 */
+@supports (overflow: clip) {
+  html, body { overflow-x: clip; }
+}
+    </style>
+</head>
+<body class="font-sans antialiased tracking-wide leading-relaxed">
+
+    <!-- ============================================================
+         1. ヘッダー（ロゴ＋ナビ＋モバイルメニュー）／画像 0点
+         ============================================================ -->
+    <header class="fixed w-full top-0 z-50 bg-white/75 backdrop-blur-md border-b border-gray-100/50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-5 lg:px-10 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <img src="images/logo.png" alt="myu:ku" class="h-9 lg:h-11 w-auto">
+                <span class="text-[10px] text-terras-accent1 font-maru tracking-widest hidden sm:block">HAIR &amp; MAKE</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#about" class="text-sm font-maru text-terras-text hover:text-terras-accent1 transition-colors">ABOUT</a>
+                <a href="#style" class="text-sm font-maru text-terras-text hover:text-terras-accent1 transition-colors">SERVICE</a>
+                <a href="#menu" class="text-sm font-maru text-terras-text hover:text-terras-accent1 transition-colors">MENU</a>
+                <a href="#access" class="text-sm font-maru text-terras-text hover:text-terras-accent1 transition-colors">ACCESS</a>
+                <a href="#cta" class="bg-terras-cta text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-opacity-90 transition-all">ご予約はこちら</a>
+            </nav>
+
+            <button class="md:hidden text-terras-text p-2" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu" onclick="toggleMobileMenu(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+
+        <nav id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 flex-col items-center py-6 gap-6 shadow-lg md:hidden">
+            <a href="#about"  onclick="toggleMobileMenu()" class="text-sm font-maru text-terras-text">ABOUT</a>
+            <a href="#style"  onclick="toggleMobileMenu()" class="text-sm font-maru text-terras-text">SERVICE</a>
+            <a href="#menu"   onclick="toggleMobileMenu()" class="text-sm font-maru text-terras-text">MENU</a>
+            <a href="#access" onclick="toggleMobileMenu()" class="text-sm font-maru text-terras-text">ACCESS</a>
+            <a href="#cta"    onclick="toggleMobileMenu()" class="bg-terras-cta text-white px-8 py-3 rounded-full text-sm font-medium mt-2">ご予約はこちら</a>
+        </nav>
+    </header>
+
+    <!-- ============================================================
+         2. ヒーロー（左テキスト＋右に実写・角丸カード）／画像 1点
+         焼き込み画像は使わない。images/hero.jpg に店舗の実写を置く。
+         ============================================================ -->
+    <section class="w-full pt-32 pb-16 md:pt-44 md:pb-24 bg-terras-bg-light">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-16 items-center">
+            <div class="fade-in">
+                <span class="block text-xs font-maru tracking-[0.25em] text-terras-accent1 mb-4">HAIR SALON IN 練馬区石神井町</span>
+                <h1 class="font-serif text-2xl md:text-4xl text-terras-text leading-relaxed md:leading-relaxed mb-6">
+                    赤い車に乗って、<br>
+                    はじめての<br class="md:hidden">
+                    散髪を。
+                </h1>
+                <p class="font-sans text-sm md:text-base text-terras-text/80 leading-loose mb-10">
+                    石神井公園駅から歩いて2分。白いタイルに赤い扉の、まちの美容室です。<br class="hidden md:block">
+                    お子さまは車の形をしたお席に乗ってカットできます。大人の方のカット・カラー・パーマ、七五三や成人式のヘアセットも承っています。
+                </p>
+                <a href="#cta" class="inline-flex items-center justify-center gap-3 bg-terras-cta text-white px-10 py-4 rounded-full text-sm md:text-base font-medium hover:bg-opacity-90 hover:-translate-y-1 transition-all duration-300 shadow-md">
+                    ご予約・お問い合わせ
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </a>
+            </div>
+            <div class="relative">
+                <div class="deco-blob"></div>
+                <div class="relative rounded-[2.5rem_2.5rem_0.75rem_2.5rem] overflow-hidden shadow-lg">
+                    <img src="images/hero.jpg" alt="白いタイルに赤い扉の myu:ku の外観" class="w-full h-full object-cover aspect-[4/3]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         3. ABOUT（写真2枚＋テキスト）／画像 2点
+         ============================================================ -->
+    <section id="about" class="py-24 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+            <div class="w-full md:w-[40%] flex flex-col items-start justify-center">
+                <div class="inline-block mb-8">
+                    <h2 class="font-en-serif text-3xl md:text-4xl text-terras-text tracking-wider">About Us</h2>
+                    <svg class="mt-3 w-32 h-4 text-terras-accent1/80" viewBox="0 0 100 15" fill="none" stroke="currentColor" aria-hidden="true">
+                        <path d="M0,7 Q20,12 40,7 T80,7 T100,7" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M40,5 Q43,2 45,7 Z" fill="currentColor" stroke="none"/>
+                        <path d="M60,9 Q63,14 65,7 Z" fill="currentColor" stroke="none"/>
+                    </svg>
+                </div>
+                <h3 class="font-maru text-xl md:text-2xl text-terras-text mb-6 leading-relaxed">
+                    みんなが、ゆっくり<br class="md:hidden">くつろげる美容室へ。
+                </h3>
+                <p class="font-sans text-terras-text/80 leading-loose text-sm md:text-base">
+                    myu:ku（みゅーく）は、石神井公園駅のそばにある美容室です。駅前通り沿いの路面店で、白いタイルの外観に赤い扉と赤いロゴが目印です。<br><br>
+                    店内には車の形をしたお子さま用のお席があり、DVDを見ながらカットできます。お子さま連れの方にも、ひとりでゆっくり過ごしたい方にも、肩の力を抜いて通っていただける場所でありたいと考えています。ご予約はお電話またはLINEで承ります。
+                </p>
+            </div>
+            <div class="w-full md:w-[60%] relative pt-10 pb-6 pr-4">
+                <!-- 2枚目（左上・前面） -->
+                <img src="images/about_1.jpg" alt="車の形をしたお子さま用のお席" class="absolute left-0 top-0 w-1/2 shadow-xl z-20 border-4 md:border-8 border-white rounded-sm">
+                <!-- 1枚目（右・背面） -->
+                <img src="images/about_2.jpg" alt="灯りのともった夕方の myu:ku の外観" class="w-[75%] ml-auto mt-10 md:mt-16 shadow-lg relative z-10 border-4 md:border-8 border-white rounded-sm">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         4. STYLE（LADIES 4枚 ＋ MENS 3枚）／画像 最大7点
+         ============================================================ -->
+    <!-- ============================================================
+         4. SERVICE（STYLE セクションの転用）
+         スタイル写真が1点も取得できなかったため、
+         画像カードをテキストカードに置き換えている。
+         ============================================================ -->
+    <section id="style" class="py-24 md:py-32 bg-white">
+        <div class="max-w-6xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16">
+                <div class="inline-block">
+                    <h2 class="font-en-serif text-3xl md:text-4xl text-terras-text tracking-wider">Service</h2>
+                    <svg class="mt-4 mx-auto w-40 h-4 text-terras-accent1/80" viewBox="0 0 120 15" fill="none" stroke="currentColor" aria-hidden="true">
+                        <path d="M5,7 Q30,12 60,7 T115,7" stroke-width="1.2" stroke-linecap="round"/>
+                        <circle cx="60" cy="7" r="1.5" fill="currentColor" stroke="none"/>
+                    </svg>
+                </div>
+                <p class="font-maru text-sm mt-4 text-terras-text/80">お子さまから大人まで、記念の日のご用意も</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white border border-terras-accent2/40 shadow-sm p-8">
+                    <h4 class="font-en-serif text-xl text-terras-text mb-1">Kids Cut</h4>
+                    <p class="font-maru text-sm text-terras-accent1 mb-4">キッズカット</p>
+                    <p class="font-sans text-xs md:text-sm text-terras-text/80 leading-loose">赤い車の形をしたお席に乗って、DVDを見ながらカットできます。はじめての散髪で落ち着いていられるか心配な方も、どうぞご相談ください。</p>
+                </div>
+                <div class="bg-white border border-terras-accent2/40 shadow-sm p-8">
+                    <h4 class="font-en-serif text-xl text-terras-text mb-1">Baby Brush</h4>
+                    <p class="font-maru text-sm text-terras-accent1 mb-4">誕生記念筆（赤ちゃん筆）</p>
+                    <p class="font-sans text-xs md:text-sm text-terras-text/80 leading-loose">はじめて切った髪で筆をつくることができます。記念に残したい方は、カットのご予約時にお申し付けください。</p>
+                </div>
+                <div class="bg-white border border-terras-accent2/40 shadow-sm p-8">
+                    <h4 class="font-en-serif text-xl text-terras-text mb-1">Ceremony</h4>
+                    <p class="font-maru text-sm text-terras-accent1 mb-4">七五三・成人式</p>
+                    <p class="font-sans text-xs md:text-sm text-terras-text/80 leading-loose">七五三や成人式のヘアセット、着付け、メイクを承っています。日程が決まりましたらお早めにご相談ください。</p>
+                </div>
+                <div class="bg-white border border-terras-accent2/40 shadow-sm p-8">
+                    <h4 class="font-en-serif text-xl text-terras-text mb-1">Hair &amp; Make</h4>
+                    <p class="font-maru text-sm text-terras-accent1 mb-4">カット・カラー・パーマ</p>
+                    <p class="font-sans text-xs md:text-sm text-terras-text/80 leading-loose">ふだんのカット、カラー、パーマも承っています。髪質やお手入れにかけられる時間をうかがったうえでご提案します。</p>
+                </div>
+            </div>
+
+            <p class="font-sans text-xs text-terras-text/80 text-center mt-10 leading-loose">
+                ※ スタイル写真は公開されているものが確認できなかったため、このページには掲載していません（No Data）。
+            </p>
+        </div>
+    </section>
+
+
+
+    <!-- ============================================================
+         6. MENU（料金表・テキストのみ）／画像 0点
+         価格は必ず参考元の実値に差し替える。創作しないこと。
+         ============================================================ -->
+    <section id="menu" class="py-24 md:py-32 bg-white">
+        <div class="max-w-4xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16">
+                <div class="inline-block">
+                    <h2 class="font-en-serif text-3xl md:text-4xl text-terras-text tracking-wider">Menu &amp; Price</h2>
+                    <svg class="mt-4 mx-auto w-40 h-4 text-terras-accent1/80" viewBox="0 0 120 15" fill="none" stroke="currentColor" aria-hidden="true">
+                        <path d="M5,7 Q30,12 60,7 T115,7" stroke-width="1.2" stroke-linecap="round"/>
+                        <circle cx="60" cy="7" r="1.5" fill="currentColor" stroke="none"/>
+                    </svg>
+                </div>
+            </div>
+
+            <p class="font-sans text-sm text-terras-text/80 text-center mb-10 leading-loose">
+                2026年4月に料金の改定がありました。改定後の正式な料金が公開情報から確認できなかったため、<br class="hidden md:block">
+                このページでは金額を「No Data」としています。お手数ですがお電話またはLINEでお尋ねください。
+            </p>
+
+            <div class="bg-white border border-terras-accent2/40 p-8 md:p-14 relative shadow-sm">
+                <!-- 四隅のコーナー装飾 -->
+                <svg class="absolute top-2 left-2 w-6 h-6 text-terras-accent1/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path d="M2,12 Q2,2 12,2" stroke-width="1" stroke-linecap="round"/>
+                    <circle cx="12" cy="2" r="1" fill="currentColor" stroke="none"/>
+                    <circle cx="2" cy="12" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+                <svg class="absolute top-2 right-2 w-6 h-6 text-terras-accent1/60 transform rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path d="M2,12 Q2,2 12,2" stroke-width="1" stroke-linecap="round"/>
+                    <circle cx="12" cy="2" r="1" fill="currentColor" stroke="none"/>
+                    <circle cx="2" cy="12" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+                <svg class="absolute bottom-2 left-2 w-6 h-6 text-terras-accent1/60 transform -rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path d="M2,12 Q2,2 12,2" stroke-width="1" stroke-linecap="round"/>
+                    <circle cx="12" cy="2" r="1" fill="currentColor" stroke="none"/>
+                    <circle cx="2" cy="12" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+                <svg class="absolute bottom-2 right-2 w-6 h-6 text-terras-accent1/60 transform rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <path d="M2,12 Q2,2 12,2" stroke-width="1" stroke-linecap="round"/>
+                    <circle cx="12" cy="2" r="1" fill="currentColor" stroke="none"/>
+                    <circle cx="2" cy="12" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+
+                <div class="mb-12 relative z-10">
+                    <h3 class="font-maru text-lg border-b border-gray-100 pb-3 mb-6">
+                        <span>ヘアメニュー</span>
+                    </h3>
+                    <ul class="space-y-5">
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>カット</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>カラー</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>パーマ</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>キッズカット（未就学児・小学生）</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="relative z-10">
+                    <h3 class="font-maru text-lg border-b border-gray-100 pb-3 mb-6">
+                        <span>記念日のメニュー</span>
+                    </h3>
+                    <ul class="space-y-5">
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>誕生記念筆（赤ちゃん筆）</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>七五三 ヘアセット・着付け・メイク</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                        <li class="flex justify-between items-center gap-4 font-sans text-sm md:text-base">
+                            <span>成人式 ヘアセット</span>
+                            <span class="text-terras-cta font-medium shrink-0">No Data</span>
+                        </li>
+                        <li class="pt-2">
+                            <span class="text-terras-text/80 text-xs md:text-sm leading-loose block">※ 税込／税別の別も公開情報から確認できませんでした。<br>※ メニューの名称は公開情報にもとづくものです。内容の詳細は店舗までお問い合わせください。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         7. ACCESS（店舗情報＋地図）／画像 0〜1点
+         地図は住所から https://maps.google.com/maps?q=<住所>&output=embed に差し替える
+         ============================================================ -->
+    <section id="access" class="py-24 md:py-32 bg-white border-t border-gray-50">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row gap-12 lg:gap-20">
+            <div class="w-full lg:w-1/2">
+                <div class="inline-block mb-10">
+                    <h2 class="font-en-serif text-3xl md:text-4xl text-terras-text tracking-wider">Access</h2>
+                    <svg class="mt-3 w-32 h-4 text-terras-accent1/80" viewBox="0 0 100 15" fill="none" stroke="currentColor" aria-hidden="true">
+                        <path d="M0,7 Q20,12 40,7 T80,7 T100,7" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <figure class="mb-10">
+                    <img src="images/access.jpg" alt="HAIR myu:ku MAKE と書かれた店舗の看板" class="w-full object-cover shadow-sm">
+                </figure>
+
+                <div class="space-y-6 font-sans text-sm md:text-base text-terras-text/80">
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Store</span>
+                        <span>myu:ku（みゅーく）</span>
+                    </div>
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Address</span>
+                        <span>東京都練馬区石神井町4-6-2<br><span class="text-xs">郵便番号は公開情報から確認できませんでした（No Data）。</span></span>
+                    </div>
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Tel</span>
+                        <span><a href="tel:03-5372-2988" class="hover:text-terras-cta transition-colors">03-5372-2988</a></span>
+                    </div>
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Access</span>
+                        <span>西武池袋線「石神井公園駅」より徒歩2分</span>
+                    </div>
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Open</span>
+                        <span>平日 10:00 - 20:00 ／ 日・祝 9:00 - 19:00（定休日：火曜日）<br><span class="text-xs">土曜日の営業時間は公開情報が分かれていたため、No Data としています。ご来店前にお確かめください。</span></span>
+                    </div>
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Booking</span>
+                        <span>お電話またはLINE公式アカウント<br><span class="text-xs">LINEの受付は 9:30〜18:00（定休日を除く）。お急ぎのご予約はお電話でお願いします。SNSのダイレクトメッセージでのご予約は承っておりません。</span></span>
+                    </div>
+                    <div class="flex gap-4 border-b border-gray-100 pb-4">
+                        <span class="w-20 font-maru font-medium text-terras-text shrink-0">Parking</span>
+                        <span>店舗専用の駐車場なし（近隣のコインパーキングをご利用ください）</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-1/2 h-80 lg:h-auto min-h-[20rem] bg-gray-50 shadow-inner relative">
+                <!-- ▼ 差し替え：q= に店舗の住所を入れる（APIキー不要の形式） -->
+                <iframe
+                    src="https://maps.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E7%9F%B3%E7%A5%9E%E4%BA%95%E7%94%BA4-6-2&output=embed"
+                    title="myu:ku の地図"
+                    width="100%" height="100%" style="border:0; display:block;"
+                    allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         8. CTA（予約導線＋サンプル予約フォーム）／画像 0〜1点
+         ============================================================ -->
+    <section id="cta" class="py-24 md:py-32 bg-terras-bg-light relative overflow-hidden">
+        <div class="max-w-3xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-terras-text leading-relaxed mb-6">
+                    ゆっくりできる時間を、<br class="md:hidden">ご用意して。
+                </h2>
+                <p class="font-sans text-sm md:text-base text-terras-text/80 leading-loose">
+                    ご予約・お問い合わせは、<br class="md:hidden">お電話またはLINEで承っております。<br>
+                    土日祝はご予約が埋まりやすいため、キャンセル待ちも承ります。
+                </p>
+            </div>
+
+            <div class="text-center mb-12">
+                <a href="tel:03-5372-2988" class="inline-flex items-center justify-center gap-3 bg-terras-cta text-white px-12 py-4 rounded-full text-base font-medium hover:bg-opacity-90 hover:-translate-y-1 transition-all duration-300 shadow-md">
+                    お電話でご予約（03-5372-2988）
+                </a>
+            </div>
+
+            <!-- サンプル予約フォーム：送信処理は行わない -->
+            <div class="bg-white p-8 md:p-12 shadow-sm border border-terras-accent2/40">
+                <form id="booking-form" novalidate onsubmit="return handleBookingSubmit(event)">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="bk-name" class="block font-maru text-sm text-terras-text mb-2">お名前</label>
+                            <input type="text" id="bk-name" name="name" autocomplete="name"
+                                   class="w-full border border-gray-200 rounded-md px-4 py-3 text-sm font-sans focus:outline-none focus:border-terras-cta transition-colors">
+                        </div>
+                        <div>
+                            <label for="bk-tel" class="block font-maru text-sm text-terras-text mb-2">お電話番号</label>
+                            <input type="tel" id="bk-tel" name="tel" autocomplete="tel"
+                                   class="w-full border border-gray-200 rounded-md px-4 py-3 text-sm font-sans focus:outline-none focus:border-terras-cta transition-colors">
+                        </div>
+                        <div>
+                            <label for="bk-date" class="block font-maru text-sm text-terras-text mb-2">ご希望日時</label>
+                            <input type="date" id="bk-date" name="date"
+                                   class="w-full border border-gray-200 rounded-md px-4 py-3 text-sm font-sans focus:outline-none focus:border-terras-cta transition-colors">
+                        </div>
+                        <div>
+                            <label for="bk-menu" class="block font-maru text-sm text-terras-text mb-2">ご希望メニュー</label>
+                            <select id="bk-menu" name="menu"
+                                    class="w-full border border-gray-200 rounded-md px-4 py-3 text-sm font-sans bg-white focus:outline-none focus:border-terras-cta transition-colors">
+                                <option value="">選択してください</option>
+                                <option value="cut">カット</option>
+                                <option value="color">カラー</option>
+                                <option value="perm">パーマ</option>
+                                <option value="kids">キッズカット</option>
+                                <option value="brush">誕生記念筆（赤ちゃん筆）</option>
+                                <option value="ceremony">七五三・成人式のヘアセット</option>
+                                <option value="other">その他・ご相談</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="bk-note" class="block font-maru text-sm text-terras-text mb-2">ご要望（任意）</label>
+                            <textarea id="bk-note" name="note" rows="4"
+                                      class="w-full border border-gray-200 rounded-md px-4 py-3 text-sm font-sans focus:outline-none focus:border-terras-cta transition-colors"></textarea>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-terras-text/80 font-sans mt-6 mb-4">
+                        ※本サイトはサンプルのため送信されません。
+                    </p>
+
+                    <button type="submit"
+                            class="w-full bg-terras-cta text-white px-8 py-4 rounded-full text-base font-medium hover:bg-opacity-90 transition-all duration-300 shadow-md">
+                        予約を申し込む
+                    </button>
+                </form>
+
+                <!-- 送信後に表示される成功メッセージ -->
+                <div id="booking-success" class="hidden text-center py-8" role="status" aria-live="polite">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-14 h-14 mx-auto text-terras-cta mb-6" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="font-maru text-xl text-terras-text mb-4">送信されました（サンプル表示）</h3>
+                    <p class="font-sans text-sm text-terras-text/80 leading-loose mb-6">
+                        ※本サイトはサンプルのため送信されません。<br>
+                        実際のご予約はお電話にて承ります。
+                    </p>
+                    <button type="button" onclick="resetBookingForm()"
+                            class="font-maru text-sm text-terras-cta underline underline-offset-4 hover:opacity-80 transition-opacity">
+                        フォームに戻る
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         フッター
+         ============================================================ -->
+    <footer class="bg-white py-12 border-t border-gray-100 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <a href="#" class="inline-block mb-4">
+                <img src="images/logo.png" alt="myu:ku" class="h-8 w-auto mx-auto">
+            </a>
+            <p class="font-sans text-xs text-terras-text/80">
+                &copy; 2026 myu:ku. All Rights Reserved.
+            </p>
+            <p class="font-sans text-[11px] text-terras-text/75 mt-3">
+                本サイトは提案用のサンプルです。掲載内容は実際のものと異なる場合があります。
+            </p>
+        </div>
+    </footer>
+<!-- ============ 制作クレジット帯（スズメデザイン） ============ -->
+<!-- 帯の地 #3B3539 ↔ 白フッター 11.97／小見出し 7.17／社名 11.97／
+     ボタン #FA804C に濃色文字 4.71／ボタン地 ↔ 帯 4.71／ボタン地 ↔ サイト内CTA ΔE 42.8 -->
+<style>
+  .credit-band { background: #3B3539; border-top: 2px solid #C2415A; }
+  .credit-lead { color: #CFC6C9; }
+  .credit-name { color: #FFFFFF; }
+  aside .credit-btn { background: #FA804C; color: #3B3539; border: 1px solid #FA804C; }
+  aside .credit-btn:hover,
+  aside .credit-btn:focus-visible { background: #FB996F; border-color: #FB996F; color: #3B3539; }
+</style>
+<aside class="credit-band py-8">
+  <div class="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+    <p class="m-0">
+      <span class="credit-lead block font-sans text-xs tracking-wide">このサイトのデザインを制作しました</span>
+      <span class="credit-name block font-en-serif text-sm tracking-wide mt-1">サロン専門ホームページ制作　スズメデザイン</span>
+    </p>
+    <a href="https://suzumedesign.com/" target="_blank" rel="noopener noreferrer"
+       class="credit-btn inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-sans tracking-wide transition-all">
+      スズメデザインについて<span aria-hidden="true">&#8599;</span>
+    </a>
+  </div>
+</aside>
+
+
+    <script>
+        // モバイルメニューの開閉
+        function toggleMobileMenu(btn) {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+            const trigger = btn || document.querySelector('[aria-controls="mobile-menu"]');
+            if (trigger) {
+                trigger.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
+            }
+        }
+
+        // サンプル予約フォーム：送信は行わず、成功表示に切り替えるだけ
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+            document.getElementById('booking-form').classList.add('hidden');
+            document.getElementById('booking-success').classList.remove('hidden');
+            document.getElementById('booking-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
+        }
+
+        function resetBookingForm() {
+            const form = document.getElementById('booking-form');
+            form.reset();
+            form.classList.remove('hidden');
+            document.getElementById('booking-success').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
